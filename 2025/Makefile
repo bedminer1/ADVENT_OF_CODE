@@ -1,4 +1,4 @@
-DAY ?= 0
+DAY=$(shell find . -maxdepth 1 -type d -name "day*" | sed 's|./day||' | sort -n | tail -n 1 || echo 0)
 NEXT_DAY=$(shell echo $$(($(DAY)+1)))
 NEW_DAY_DIR = day$(NEXT_DAY)
 
@@ -7,13 +7,14 @@ NEW_DAY_DIR = day$(NEXT_DAY)
 new:
 	@mkdir -p $(NEW_DAY_DIR)/part1 $(NEW_DAY_DIR)/part2
 	
+	@touch $(NEW_DAY_DIR)/part1/main.cpp $(NEW_DAY_DIR)/input.txt
+	@touch $(NEW_DAY_DIR)/part1/main.cpp $(NEW_DAY_DIR)/input_simple.txt
+
 	# Create files for Part 1
-	@touch $(NEW_DAY_DIR)/part1/main.cpp $(NEW_DAY_DIR)/part1/input.txt
 	@echo "// C++ solution for Day $(NEXT_DAY) Part 1" > $(NEW_DAY_DIR)/part1/main.cpp
 	@echo "#include <iostream>\nint main() { /* Part 1 code */ return 0; }" >> $(NEW_DAY_DIR)/part1/main.cpp
 	
 	# Create files for Part 2
-	@touch $(NEW_DAY_DIR)/part2/main.cpp $(NEW_DAY_DIR)/part2/input.txt
 	@echo "// C++ solution for Day $(NEXT_DAY) Part 2" > $(NEW_DAY_DIR)/part2/main.cpp
 	@echo "#include <iostream>\nint main() { /* Part 2 code */ return 0; }" >> $(NEW_DAY_DIR)/part2/main.cpp
 	
@@ -39,8 +40,8 @@ build: $(SRC_FILE)
 
 # Build + Run
 run: build
-	@echo "--- Running Day $(TARGET_DAY) Part $(TARGET_PART)Solution ---"
-	@$(OUTPUT_EXEC) < day$(TARGET_DAY)/part$(TARGET_PART)/input.txt
+	@echo "--- Running Day $(TARGET_DAY) Part $(TARGET_PART) Solution ---"
+	@$(OUTPUT_EXEC) < day$(TARGET_DAY)/input.txt
 
 # Cleanup
 clean:
