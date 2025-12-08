@@ -1,4 +1,4 @@
-// C++ solution for Advent of Code Day 1
+// C++ solution for Day 1 Part 1
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -23,7 +23,7 @@ std::vector<std::string> readInput(const std::string& filename) {
 }
 
 int main() {
-    std::vector<std::string> inputData = readInput("day1/part1/input.txt");
+    std::vector<std::string> inputData = readInput("day1/input.txt");
     
     int res = 0; 
     int curr = 50;
@@ -34,19 +34,19 @@ int main() {
         const int RANGE_SIZE = 100;
 
         if (direction == 'L') {
-            curr -= magnitude % RANGE_SIZE + RANGE_SIZE;
+            curr -= magnitude % RANGE_SIZE;
+            curr += RANGE_SIZE;
             curr %= RANGE_SIZE;
         } else {
-            curr += magnitude;
-            curr %= RANGE_SIZE;
-        }
-
-        if (curr == 0) {
-            res += 1;
+            curr += magnitude % 100;
         }
     }
 
-    std::cout << "Result: " << res << std::endl;
+    if (curr == 0) {
+        res += 1;
+    }
+
+    std::cout << "res: " << res << std::endl;
 
     return 0;
 }

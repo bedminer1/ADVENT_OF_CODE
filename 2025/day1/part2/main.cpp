@@ -1,4 +1,4 @@
-// C++ solution for Advent of Code Day 1
+// C++ solution for Advent of Code Day 1 Part 2
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -31,23 +31,28 @@ int main() {
     for (size_t i = 0; i < inputData.size(); ++i) {
         char direction = inputData[i][0];
         int magnitude = std::stoi(inputData[i].substr(1));
+        res += magnitude / 100;
 
         if (direction == 'L') {
-            curr -= magnitude;
+            const int prev = curr;
+            curr -= magnitude % 100;
             
-            while (curr < 0) {
+            if(curr < 0) {
+                if (prev != 0) res++;
                 curr += 100;
             }
+            if (curr == 0) res++;
         } else {
-            curr += magnitude;
-            while (curr > 99) {
+            curr += magnitude % 100;
+            if (curr > 99) {
+                res++;
                 curr -= 100;
             }
         }
+    }
 
-        if (curr == 0) {
-            res += 1;
-        }
+    if (curr == 0) {
+        res += 1;
     }
 
     std::cout << "res: " << res << std::endl;
